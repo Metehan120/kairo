@@ -14,8 +14,8 @@ use crate::task::Task;
 #[derive(Debug)]
 #[repr(u16)]
 pub enum States {
-    Running,
     Idle,
+    Running,
     Notified,
     Completed,
     Queued,
@@ -159,7 +159,7 @@ impl Scheduler {
                     .state
                     .compare_exchange(
                         States::Queued as u16,
-                        States::Idle as u16,
+                        States::Running as u16,
                         Ordering::AcqRel,
                         Ordering::Acquire,
                     )
