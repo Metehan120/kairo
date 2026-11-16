@@ -254,9 +254,7 @@ impl SchedulerPublic for Scheduler {
         let Some(thread) = self.scheduler.select_worker() else {
             return Err(Error::NoWorker);
         };
-        if thread.queue.len() == 0 {
-            thread.thread.unpark();
-        }
+        thread.thread.unpark();
         Ok(())
     }
 }
