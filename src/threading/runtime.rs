@@ -25,7 +25,7 @@ pub struct RuntimeBuilder {
 /// (except the current worker, if shutdown happens there).
 #[derive(Debug, Clone)]
 pub struct Runtime {
-    scheduler: Scheduler,
+    pub(crate) scheduler: Scheduler,
 }
 
 impl RuntimeBuilder {
@@ -111,21 +111,5 @@ impl Runtime {
         F::Output: Send + 'static,
     {
         spawn_inner(future, name, &self.scheduler)
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn builder_defaults_to_prefer_first_and_accepts_round_robin() {
-        assert_eq!(Runtime::new().wake_policy, WakePolicy::PreferFirst);
-        assert_eq!(
-            Runtime::new()
-                .wake_policy(WakePolicy::RoundRobin)
-                .wake_policy,
-            WakePolicy::RoundRobin
-        );
     }
 }

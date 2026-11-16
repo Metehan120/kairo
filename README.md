@@ -31,7 +31,9 @@ fn main() {
 }
 ```
 
-`block_on` polls the provided future on the calling thread; spawned tasks run on the runtime's workers. Avoid calling `block_on` on a worker if the awaited work needs that worker to make progress.
+Tasks are spawned on an explicit runtime; there is no global scheduler. You can also use the free functions `kairo::thread::spawn(&runtime, future)` and `kairo::thread::spawn_with_name(name, &runtime, future)`.
+
+Both `runtime.block_on(future)` and `kairo::thread::block_on(future)` poll the provided future on the calling thread; spawned tasks run on the runtime's workers. Avoid calling `block_on` on a worker if the awaited work needs that worker to make progress.
 
 ### Wake policies
 

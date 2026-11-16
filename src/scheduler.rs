@@ -1,6 +1,6 @@
 use std::{
     sync::{
-        Arc, Barrier, LazyLock, OnceLock,
+        Arc, Barrier, OnceLock,
         atomic::{AtomicBool, AtomicUsize, Ordering},
     },
     thread::{JoinHandle, Thread, park},
@@ -80,10 +80,6 @@ pub struct Scheduler {
 }
 
 impl Scheduler {
-    pub fn new(threads: usize) -> Scheduler {
-        Self::with_wake_policy(threads, WakePolicy::default())
-    }
-
     pub fn with_wake_policy(threads: usize, wake_policy: WakePolicy) -> Scheduler {
         let should_exit = Arc::new(AtomicBool::new(false));
         let (coordination, workers, handles) = Self::spawn_threads(threads, should_exit.clone());
@@ -171,9 +167,7 @@ impl Scheduler {
             } else {
                 let mut maybe_park = true;
                 match Self::get_from_global_queue(&worker_queue, &global, 4) {
-                    Ok(_) => {
-                        continue;
-                    }
+                    Ok(_) => continue,
                     Err(Error::ExcessiveRetries) => maybe_park = false,
                     _ => {}
                 };
@@ -274,8 +268,3 @@ impl Drop for SchedulerInner {
         }
     }
 }
-
-pub static GENERAL_SCHEDULER: LazyLock<Scheduler> = LazyLock::new(|| {
-    let thread_count = num_cpus::get();
-    Scheduler::new(thread_count)
-});
