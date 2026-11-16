@@ -1,6 +1,6 @@
 # Kairo
 
-Kairo is an experimental Rust async runtime built for learning. It explores how futures, wakers, task scheduling, work stealing, and timers fit together.
+Kairo is an experimental Rust async runtime I built to learn how futures, wakers, task scheduling, work stealing, and timers fit together.
 
 **Please don't use Kairo in your applications.** It is a learning project, not a production-ready runtime; its APIs and behavior may change, and it may contain bugs. For real applications, choose a mature, maintained runtime instead. Feel free to explore the code and experiment with it locally.
 
