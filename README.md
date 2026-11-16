@@ -50,6 +50,34 @@ let runtime = Runtime::new()
 
 The policy chooses a worker to wake; tasks are still placed in a shared queue.
 
+## GUI examples
+
+These experimental desktop demos use `eframe`/`egui` as a development dependency, not a library dependency. Enable the `gui-examples` feature to select these examples. Library-only builds do not compile the GUI dependencies, but test builds may compile them even without this feature because Cargo development dependencies cannot be optional.
+
+| Example | What it demonstrates |
+| --- | --- |
+| `task_dashboard` | Named tasks, progress updates, join results, and cancellation. |
+| `timer_board` | Multiple countdowns with configurable durations, progress, and cancellation. |
+
+| `concurrent_search` | Concurrent, cancellable searches across synthetic local datasets, with incremental results and adjustable dataset, query, and display limits. |
+
+```sh
+cargo run --features gui-examples --example task_dashboard
+cargo run --features gui-examples --example timer_board
+
+cargo run --features gui-examples --example concurrent_search
+```
+
+A graphical desktop and an OpenGL-capable graphics stack are required. On Linux, the examples support X11 and Wayland; building may require your distribution's native graphics/windowing development packages. The examples do not access the network at runtime.
+
+Each example creates its own Kairo runtime. The GUI stays on the main thread while background tasks send updates through channels and request repaints. Closing a window requests cancellation of outstanding tasks. Search processing is split into small chunks to keep task polls short.
+
+To compile all three examples and run their helper tests without opening windows:
+
+```sh
+cargo test --features gui-examples --examples
+```
+
 ## Build and test
 
 ```sh

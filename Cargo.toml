@@ -3,13 +3,31 @@ name = "kairo"
 version = "0.1.0"
 edition = "2024"
 
+[features]
+gui-examples = []
+
 [dependencies]
+
 crossbeam = { version = "0.8.5", features = ["crossbeam-queue", "crossbeam-deque"] }
 spin = "0.12.3"
 thiserror = "2.0.21"
 num_cpus = "1.17.0"
 
+[[example]]
+name = "task_dashboard"
+required-features = ["gui-examples"]
+
+[[example]]
+name = "timer_board"
+required-features = ["gui-examples"]
+
+
+[[example]]
+name = "concurrent_search"
+required-features = ["gui-examples"]
+
 [dev-dependencies]
+eframe = { version = "=0.31.1", default-features = false, features = ["default_fonts", "glow", "wayland", "x11"] }
 async-channel = "2.5.0"
 async-h1 = "2.3"
 async-net = "2.0"
