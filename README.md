@@ -1,6 +1,8 @@
 # Kairo
 
-Kairo is a Rust async runtime built as a learning project. It explores how futures, wakers, task scheduling, work stealing, and timers fit together. The implementation is experimental and is not intended as a production-ready runtime.
+Kairo is an experimental Rust async runtime built for learning. It explores how futures, wakers, task scheduling, work stealing, and timers fit together.
+
+**Please don't use Kairo in your applications.** It is a learning project, not a production-ready runtime; its APIs and behavior may change, and it may contain bugs. For real applications, choose a mature, maintained runtime instead. Feel free to explore the code and experiment with it locally.
 
 ## Features
 
@@ -11,7 +13,7 @@ Kairo is a Rust async runtime built as a learning project. It explores how futur
 - A `sleep` future backed by a shared timer thread.
 - `block_on` for running a future on the calling thread.
 
-## Getting started
+## Trying it out
 
 ```rust
 use std::time::Duration;
@@ -58,4 +60,4 @@ Kairo currently uses Rust edition 2024. For API details, see the generated docum
 
 ## Project status
 
-Kairo is a place to experiment and learn, so APIs and behavior may change. Dropping a runtime handle does not necessarily stop its workers immediately: tasks and join handles can retain scheduler references. Networking and filesystem drivers are not currently provided by the public API; executor-independent libraries can supply their own I/O infrastructure.
+Kairo is a place to experiment and learn, not a runtime recommended for applications. Dropping a runtime handle does not necessarily stop its workers immediately: tasks and join handles can retain scheduler references. Networking and filesystem drivers are not currently provided by the public API; executor-independent libraries can supply their own I/O infrastructure.
